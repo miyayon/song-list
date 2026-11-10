@@ -5024,18 +5024,6 @@ const songs=[
 "め組のひと"
 ],
 [
-"十八番",
-"",
-"",
-"Bunny Girl"
-],
-[
-"十八番",
-"",
-"",
-"ノンブレス・オブリージュ"
-],
-[
 "アイドル",
 "",
 "すとぷり",
@@ -5076,7 +5064,6 @@ const unitMembers=new Set(unitOrder);
 const genres=[...new Set(uniqueSongs.map(x=>x[0]))].sort((a,b)=>a.localeCompare(b,'ja'));
 const g=document.querySelector('#g'),q=document.querySelector('#q'),view=document.querySelector('#view'),list=document.querySelector('#list');
 const jaCollator=new Intl.Collator('ja',{numeric:true,sensitivity:'base'});
-genres.sort((a,b)=>{if(a==='十八番')return -1;if(b==='十八番')return 1;return a.localeCompare(b,'ja')});
 genres.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;g.appendChild(o)});
 
 function makeSongList(titles){
@@ -5195,18 +5182,14 @@ function render(){
    list.appendChild(makeSongList(titles));
  }else{
  Object.keys(groups).sort((a,b)=>{
-   const order=["十八番","Vtuber","HoneyWorks","ボカロ","アニソン","J-POP","邦楽","その他"];
+   const order=["Vtuber","HoneyWorks","ボカロ","アニソン","J-POP","邦楽","その他"];
    const ia=order.indexOf(a),ib=order.indexOf(b);return (ia<0?999:ia)-(ib<0?999:ib)||a.localeCompare(b,'ja');
  }).forEach(gg=>{
    const gd=document.createElement('details');gd.open=false;
    const gs=document.createElement('summary');
    const genreCount=Object.values(groups[gg]).flatMap(x=>Object.values(x).flat()).length;
    gs.textContent=`${gg} (${genreCount}曲)`;gd.appendChild(gs);
-   if(gg==="十八番"){
-     const titles=Object.values(groups[gg]).flatMap(groupArtists=>Object.values(groupArtists).flat()).sort((a,b)=>a.localeCompare(b,'ja'));
-     gd.appendChild(makeSongList(titles));
-     list.appendChild(gd);
-   }else if(gg==="Vtuber"){
+   if(gg==="Vtuber"){
      const holoArtists=groups[gg]["ホロライブ"]||{};
      const holoCount=Object.values(holoArtists).reduce((n,titles)=>n+titles.length,0);
      if(holoCount===0) return;
